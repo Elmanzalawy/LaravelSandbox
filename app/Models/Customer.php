@@ -14,4 +14,8 @@ class Customer extends Model
         'name',
         'active'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
