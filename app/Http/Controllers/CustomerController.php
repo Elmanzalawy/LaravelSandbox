@@ -2,23 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
+use App\Repositories\CustomerRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    private $customerRepository;
+
+    public function __construct(CustomerRepositoryInterface $customerRepository)
+    {
+        $this->customerRepository = $customerRepository;
+    }
+
     public function index(Request $request){
-        return Customer::orderBy('active')
-            ->whereActive(1)
-            ->with('user')
-            ->get()
-            ->map(function($customer) {
-                return [
-                    'customer_id' => $customer->id,
-                    'name' => $customer->name,
-                    'created_by' => $customer->user->email,
-                    'last_updated' => $customer->updated_at->diffForHumans(),
-                ];
-            });
+        return $this->customerRepository->all();
+    }
+
+    public function show(Request $request, $customerId){
+        return $this->customerRepository->find($customerId);
+    }
+
+    public function update($customerId)
+    {
+        $this->customerRepository->update($customerId);
+        return redirect(route('customers.show', $customerId));
+    }
+
+    public function destroy($customerId)
+    {
+        $this->customerRepository->delete($customerId);
+        return redirect(route('customers.index'));
     }
 }

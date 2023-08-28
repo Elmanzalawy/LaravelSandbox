@@ -29,6 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('customers', [CustomerController::class,'index']);
+Route::get('customers', [CustomerController::class,'index'])->name('customers.index');
+
+Route::get('customers/{customerId}', [CustomerController::class,'show'])->name('customers.show');
+Route::get('customers/{customerId}/update', [CustomerController::class,'update'])->name('customers.update');
+Route::get('customers/{customerId}/destroy', [CustomerController::class,'destroy'])->name('customers.delete');
 
 require __DIR__.'/auth.php';
