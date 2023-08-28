@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,5 +31,5 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('customers', [CustomerController::class,'index']);
-
+Route::get('pay', [PaymentController::class, 'store']);
 require __DIR__.'/auth.php';
